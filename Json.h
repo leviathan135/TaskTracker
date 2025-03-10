@@ -22,8 +22,9 @@ public:
 	EXEC_RESULT::EXEC_RESULT writeJsonDataToJsonFile(JsonData* jsonData);
 	EXEC_RESULT::EXEC_RESULT parse(JsonData* jsonData);
 
-	EXEC_RESULT::EXEC_RESULT checkCurlyBracket(char curlyBracket, std::fstream& jsonFile);
-	EXEC_RESULT::EXEC_RESULT readKey(std::string& key, std::fstream& jsonFile);
+	EXEC_RESULT::EXEC_RESULT checkCurlyBracket(char curlyBracket);
+	EXEC_RESULT::EXEC_RESULT readKey(std::string& key);
+	AbstractJsonDataType* readValue(JsonData* jsonData);
 
 	void setJsonFilePath(char* jsonFilePath)
 	{

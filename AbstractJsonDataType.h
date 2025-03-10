@@ -11,6 +11,6 @@ public:
 	virtual ~AbstractJsonDataType();
 
 	virtual void write(std::fstream& jsonFile) = 0;
-	virtual EXEC_RESULT::EXEC_RESULT read() = 0;
+	virtual void read(std::fstream& jsonFile) = 0;
 };
 

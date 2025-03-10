@@ -32,7 +32,7 @@ EXEC_RESULT::EXEC_RESULT Json::parse(JsonData* jsonData)
 	}
 
 	//Check opening curly bracket
-	result = checkCurlyBracket('{', m_jsonFile);
+	result = checkCurlyBracket('{');
 
 	if (result != EXEC_RESULT::SUCCESS)
 	{
@@ -42,14 +42,15 @@ EXEC_RESULT::EXEC_RESULT Json::parse(JsonData* jsonData)
 
 	//Okuma isini hallet. 
 	std::string key;
+	AbstractJsonDataType* value;
 
 	//while (1)
 	{
-		result = readKey(key, m_jsonFile);
+		result = readKey(key);
 		std::cout << "okunan key degeri : " << key << " ve result sonucu " << result << std::endl;
 		jsonData->insertKey(key);
-		result = readValue()
-
+		value =  readValue(jsonData);
+		jsonData->insertValue(value);
 	}
 
 
@@ -70,25 +71,41 @@ EXEC_RESULT::EXEC_RESULT Json::parse(JsonData* jsonData)
 	return result;
 }
 
-EXEC_RESULT::EXEC_RESULT Json::readKey(std::string& key, std::fstream& jsonFile)
+AbstractJsonDataType* Json::readValue(JsonData* jsonData)
+{
+	AbstractJsonDataType* p_jsonValue;
+	char c; 
+	m_jsonFile>>c;
+
+	if (c == '"') //This is an jsonString. read string
+	{
+		p_jsonValue = new JsonStringDataType();
+		p_jsonValue->read(m_jsonFile);
+		return p_jsonValue;
+	}
+	//  else if digerlerini oku.
+	
+}
+
+EXEC_RESULT::EXEC_RESULT Json::readKey(std::string& key)
 {
 	char c;
-	jsonFile >> c;
+	m_jsonFile >> c;
 	if (c != '"')
 	{
 		printError("DoubleQuotes can not be readed. Check json file format!");
 		return EXEC_RESULT::FAILURE;
 	}
 
-	jsonFile >> c;
+	m_jsonFile >> c;
 	while (c != '"')
 	{
 		key = key + c;
-		jsonFile >> c;
+		m_jsonFile >> c;
 	}
 	//In last jsonFile>>c ending doublequotes readed. Lastly read semicolon.
 
-	jsonFile >> c;
+	m_jsonFile >> c;
 	if (c != ':')
 	{
 		printError("Semicolon is not readed. Check json file format!");
@@ -97,10 +114,10 @@ EXEC_RESULT::EXEC_RESULT Json::readKey(std::string& key, std::fstream& jsonFile)
 	return EXEC_RESULT::SUCCESS;
 }
 
-EXEC_RESULT::EXEC_RESULT Json::checkCurlyBracket(char curlyBracket, std::fstream& jsonFile)
+EXEC_RESULT::EXEC_RESULT Json::checkCurlyBracket(char curlyBracket)
 {
 	char c;
-	jsonFile >> c;
+	m_jsonFile >> c;
 	if (c == curlyBracket)
 	{
 		return EXEC_RESULT::SUCCESS;

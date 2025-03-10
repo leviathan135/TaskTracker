@@ -86,16 +86,24 @@ EXEC_RESULT::EXEC_RESULT JsonFileHandler::createNewTaskJson(char* newTask)
 EXEC_RESULT::EXEC_RESULT JsonFileHandler::addJsonString(JsonData& jsonData, std::string newTask)
 {
 	AbstractJsonDataType* jsonStringDataType = new JsonStringDataType(newTask);
-	jsonData.insertValue(jsonStringDataType);
-	return EXEC_RESULT::SUCCESS;
+	if (jsonStringDataType != NULL)
+	{
+		jsonData.insertValue(jsonStringDataType);
+		return EXEC_RESULT::SUCCESS;
+	}
+	else { return EXEC_RESULT::FAILURE; }
 }
 
 EXEC_RESULT::EXEC_RESULT JsonFileHandler::addJsonNumber(JsonData& jsonData, int id)
 {
 	//@TODO: buradaki id degeri configden okunacak. Daha sonra ayarla.
 	AbstractJsonDataType* jsonNumberDataType = new JsonNumberDataType(id);
-	jsonData.insertValue(jsonNumberDataType);
-	return EXEC_RESULT::SUCCESS;
+	if (jsonNumberDataType != NULL)
+	{
+		jsonData.insertValue(jsonNumberDataType);
+		return EXEC_RESULT::SUCCESS;
+	}
+	else { return EXEC_RESULT::FAILURE; }
 }
 
 

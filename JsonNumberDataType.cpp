@@ -13,6 +13,6 @@ void JsonNumberDataType::write(std::fstream& jsonFile)
 	jsonFile << getJsonNumber();
 }
 
-EXEC_RESULT::EXEC_RESULT JsonNumberDataType::read() { return EXEC_RESULT::SUCCESS; }
+void JsonNumberDataType::read(std::fstream& jsonFile) { }
 
 JsonNumberDataType::~JsonNumberDataType(){}

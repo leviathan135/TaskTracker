@@ -10,7 +10,7 @@ public:
     ~JsonNumberDataType();
 
     void write(std::fstream& jsonFile);
-    EXEC_RESULT::EXEC_RESULT read();
+    void read(std::fstream& jsonFile);
 
     int getJsonNumber()
     {
