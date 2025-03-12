@@ -1,7 +1,4 @@
 #include "JsonStringDataType.h"
-/// @TODO Deneme amacli eklendi.
-#include <iostream>
-/// </summary>
 
 JsonStringDataType::JsonStringDataType() : AbstractJsonDataType(){}
 
@@ -17,18 +14,13 @@ void JsonStringDataType::write(std::fstream& jsonFile)
 	jsonFile << "\"";
 }
 
-void JsonStringDataType::read(std::fstream& jsonFile) 
+void JsonStringDataType::read(std::string stringValue)
 {
-	std::cout << "String okuma read metoduna girildi." << std::endl;
-	char c;
-	jsonFile >> c;
-	while (c != '"')
-	{
-		m_jsonString = m_jsonString + c;
-		jsonFile >> c;
-	}
-
-	std::cout << "JsonStringDataType icerisinde tutulan string: " << getJsonString() << std::endl;
+	//Remove double quotes beginning and end of the string
+	stringValue.erase(stringValue.begin());
+	stringValue.erase(stringValue.end() - 1);
+	
+	setJsonString(stringValue);
 }
 
 JsonStringDataType::~JsonStringDataType(){}

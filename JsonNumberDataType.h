@@ -10,19 +10,21 @@ public:
     ~JsonNumberDataType();
 
     void write(std::fstream& jsonFile);
-    void read(std::fstream& jsonFile);
+    void read(std::string numberValue);
 
     int getJsonNumber()
     {
-        return m_jsonNumber;
+        return m_jsonNumberInt;
     }
 
     void setJsonNumber(int jsonNumber)
     {
-        m_jsonNumber = jsonNumber;
+        m_jsonNumberInt = jsonNumber;
     }
 
 private:
-    int m_jsonNumber;
+    int m_jsonNumberInt;
+    double m_jsonNumberDouble;
+    std::string m_jsonNumberString;
 };
 

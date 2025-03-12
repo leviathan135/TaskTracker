@@ -74,16 +74,52 @@ EXEC_RESULT::EXEC_RESULT Json::parse(JsonData* jsonData)
 AbstractJsonDataType* Json::readValue(JsonData* jsonData)
 {
 	AbstractJsonDataType* p_jsonValue;
-	char c; 
-	m_jsonFile>>c;
-
-	if (c == '"') //This is an jsonString. read string
+	std::string valueAsString;
+	char c;
+	m_jsonFile >> c;
+	while (c != ',' && c != '}') //Either value read ended and there is other key and value, or json file ended with number.
+	{
+		valueAsString = valueAsString + c;
+		m_jsonFile >> c;
+		
+	}
+	std::cout << "valueasSting degerii: " << valueAsString << std::endl;
+	if (valueAsString[0] == '"') //This is a jsonString. read string
 	{
 		p_jsonValue = new JsonStringDataType();
-		p_jsonValue->read(m_jsonFile);
+		p_jsonValue->read(valueAsString);
 		return p_jsonValue;
 	}
-	//  else if digerlerini oku.
+	else if (valueAsString[0] == '[') //This is a json array. read array
+	{
+		//@TODO implement later.
+	}
+	else if (valueAsString[0] == '{') //This is a json object. read json object as stringfyed.
+	{
+		//@TODO implement later.
+	}
+	else if (valueAsString[0] == ',' || valueAsString[0] == '}') //This is null. Either next key will come or json object read completed.
+	{
+		//@TODO implement later.
+	}
+	else if (valueAsString[0] == 't' || valueAsString[0] =='f') //This is a json boolean.
+	{
+		if (valueAsString[0] == 't')
+		{
+			//@TODO implement json boolean as true
+		}
+		else {
+			//@TODO implement json boolean as false
+		}
+	}
+	else
+	{
+		//Json number int or double.
+		p_jsonValue = new JsonNumberDataType();
+		p_jsonValue->read(valueAsString);
+		return p_jsonValue;
+	}
+
 	
 }
 

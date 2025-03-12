@@ -4,6 +4,7 @@
 #include <string>
 #include "AbstractJsonDataType.h"
 #include "JsonStringDataType.h"
+#include "JsonNumberDataType.h"
 
 typedef enum JSON_DATA_TYPE
 {

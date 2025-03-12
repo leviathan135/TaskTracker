@@ -11,6 +11,10 @@ public:
 	virtual ~AbstractJsonDataType();
 
 	virtual void write(std::fstream& jsonFile) = 0;
-	virtual void read(std::fstream& jsonFile) = 0;
+	/// <summary>
+	/// Value of key read as string and parse in read function.
+	/// </summary>
+	/// <param name="value"></param>
+	virtual void read(std::string value) = 0;
 };
 

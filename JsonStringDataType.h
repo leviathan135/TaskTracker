@@ -10,7 +10,7 @@ public:
 	~JsonStringDataType();
 
 	void write(std::fstream& jsonFile);
-	void read(std::fstream& jsonFile);
+	void read(std::string stringValue);
 
 	std::string getJsonString()
 	{
