@@ -1,12 +1,12 @@
 #include "Json.h"
 
 
-Json::Json() : m_jsonFilePath(NULL)
+Json::Json() : m_jsonFilePath(NULL), isJsonFileReadCompleted(false)
 {
 
 }
 
-Json::Json(char* jsonFilePath)
+Json::Json(char* jsonFilePath): isJsonFileReadCompleted(false)
 {
 	setJsonFilePath(jsonFilePath);
 	//m_jsonFile(getJsonFilePath(), std::fstream::in | std::fstream::out);
@@ -44,10 +44,12 @@ EXEC_RESULT::EXEC_RESULT Json::parse(JsonData* jsonData)
 	std::string key;
 	AbstractJsonDataType* value;
 
-	//while (1)
+	while (!isJsonFileReadCompleted)
 	{
 		result = readKey(key);
 		std::cout << "okunan key degeri : " << key << " ve result sonucu " << result << std::endl;
+		//clear key 
+		key.clear();
 		jsonData->insertKey(key);
 		value =  readValue(jsonData);
 		jsonData->insertValue(value);
@@ -80,16 +82,36 @@ AbstractJsonDataType* Json::readValue(JsonData* jsonData)
 	while (c != ',' && c != '}') //Either value read ended and there is other key and value, or json file ended with number.
 	{
 		valueAsString = valueAsString + c;
-		m_jsonFile >> c;
-		
+		m_jsonFile >> c;	
+
 	}
+
+	if (valueAsString[0] == '{')
+	{
+		valueAsString = valueAsString + c; //If end of file not reached put } to file to check json object read or not.
+		m_jsonFile >> c;
+		if (c == '}') //json file read finished with last object as an json object.
+		{
+			isJsonFileReadCompleted = true;
+		}
+		else //that means next character is ','
+		{
+			isJsonFileReadCompleted = false;
+		}
+	}
+	else if(c == '}') //Closing curly bracket readed.
+	{
+		isJsonFileReadCompleted = true;
+	}
+
+
 	std::cout << "valueasSting degerii: " << valueAsString << std::endl;
 	if (valueAsString[0] == '"') //This is a jsonString. read string
 	{
 		p_jsonValue = new JsonStringDataType();
 		p_jsonValue->read(valueAsString);
-		return p_jsonValue;
-	}
+		
+	}/*
 	else if (valueAsString[0] == '[') //This is a json array. read array
 	{
 		//@TODO implement later.
@@ -111,15 +133,16 @@ AbstractJsonDataType* Json::readValue(JsonData* jsonData)
 		else {
 			//@TODO implement json boolean as false
 		}
-	}
+	}*/
 	else
 	{
 		//Json number int or double.
 		p_jsonValue = new JsonNumberDataType();
 		p_jsonValue->read(valueAsString);
-		return p_jsonValue;
+		
 	}
 
+	return p_jsonValue;
 	
 }
 

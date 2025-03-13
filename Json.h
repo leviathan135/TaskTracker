@@ -37,6 +37,7 @@ public:
 	}
 
 private:
+	bool isJsonFileReadCompleted;
 
 	std::fstream m_jsonFile;
 	char* m_jsonFilePath;
