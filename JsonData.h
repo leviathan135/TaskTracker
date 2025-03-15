@@ -5,7 +5,10 @@
 #include "AbstractJsonDataType.h"
 #include "JsonStringDataType.h"
 #include "JsonNumberDataType.h"
-
+/// <summary>
+/// @TODO deneme amaçlý
+#include <iostream>
+/// </summary>
 typedef enum JSON_DATA_TYPE
 {
 	JsonString = 1,
@@ -26,6 +29,21 @@ public:
 	void insertKeyVector(std::vector<std::string> keyVector);
 	void insertValueVector(std::vector<AbstractJsonDataType*> valueVector);
 	void insertValue(AbstractJsonDataType* jsonDataValue);
+
+	AbstractJsonDataType* operator[](std::string key) {
+		std::vector<std::string>::iterator itr;
+		int i = 0;
+		for (itr = m_keys.begin(); itr != m_keys.end(); itr++)
+		{
+			if (( * itr) == key)
+			{
+				//keyFound;
+				break;
+			}
+			else { i++; }
+		}
+		return (m_values.at(i));
+	}
 
 	void setKeys(std::vector<std::string> keys)
 	{

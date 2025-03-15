@@ -16,5 +16,6 @@ public:
 	/// </summary>
 	/// <param name="value"></param>
 	virtual void read(std::string value) = 0;
+	virtual std::string getDataString() = 0;
 };
 

@@ -26,4 +26,10 @@ void JsonNumberDataType::read(std::string numberValue)
 	}
 }
 
+std::string JsonNumberDataType::getDataString()
+{
+	
+	return std::to_string(getJsonNumber());
+}
+
 JsonNumberDataType::~JsonNumberDataType(){}

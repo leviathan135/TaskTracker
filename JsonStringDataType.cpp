@@ -23,4 +23,9 @@ void JsonStringDataType::read(std::string stringValue)
 	setJsonString(stringValue);
 }
 
+std::string JsonStringDataType::getDataString()
+{
+	return getJsonString();
+}
+
 JsonStringDataType::~JsonStringDataType(){}

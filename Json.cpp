@@ -47,14 +47,20 @@ EXEC_RESULT::EXEC_RESULT Json::parse(JsonData* jsonData)
 	while (!isJsonFileReadCompleted)
 	{
 		result = readKey(key);
-		std::cout << "okunan key degeri : " << key << " ve result sonucu " << result << std::endl;
+		jsonData->insertKey(key);
 		//clear key 
 		key.clear();
-		jsonData->insertKey(key);
 		value =  readValue(jsonData);
 		jsonData->insertValue(value);
 	}
 
+	std::cout << ((*jsonData)["id"])->getDataString()<<std::endl;
+	std::cout << ((*jsonData)["description"])->getDataString() << std::endl;
+	std::cout << ((*jsonData)["status"])->getDataString() << std::endl;
+	std::cout << ((*jsonData)["createdAt"])->getDataString() << std::endl;
+	std::cout << ((*jsonData)["updatedAt"])->getDataString() << std::endl;
+	
+	//std::cout << ((jsonData['id']).getDataString() << std::endl;
 
 	//Check close bracket
 	//checkCurlyBracket('}', m_jsonFile);
