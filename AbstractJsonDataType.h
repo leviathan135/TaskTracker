@@ -17,5 +17,6 @@ public:
 	/// <param name="value"></param>
 	virtual void read(std::string value) = 0;
 	virtual std::string getDataString() = 0;
+	virtual void setDataString(std::string stringfyedData) = 0;
 };
 

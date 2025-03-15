@@ -18,6 +18,7 @@ EXEC_RESULT::EXEC_RESULT Json::parse(JsonData* jsonData)
 	if (getJsonFilePath() == NULL)
 	{
 		printError("jsonFilePath is not given!\n");
+		return EXEC_RESULT::FAILURE;
 	}
 
 	m_jsonFile.open((const char*)getJsonFilePath(), std::fstream::in | std::fstream::out | std::fstream::app);
@@ -53,29 +54,8 @@ EXEC_RESULT::EXEC_RESULT Json::parse(JsonData* jsonData)
 		value =  readValue(jsonData);
 		jsonData->insertValue(value);
 	}
-
-	std::cout << ((*jsonData)["id"])->getDataString()<<std::endl;
-	std::cout << ((*jsonData)["description"])->getDataString() << std::endl;
-	std::cout << ((*jsonData)["status"])->getDataString() << std::endl;
-	std::cout << ((*jsonData)["createdAt"])->getDataString() << std::endl;
-	std::cout << ((*jsonData)["updatedAt"])->getDataString() << std::endl;
-	
-	//std::cout << ((jsonData['id']).getDataString() << std::endl;
-
-	//Check close bracket
-	//checkCurlyBracket('}', m_jsonFile);
-	
-	
-	/*
-	char word;
-	int a = 0;
-	while (m_jsonFile >> word)
-	{
-		std::cout << word << std::endl;
-		std::cout << a <<std::endl;
-		a++;
-	}*/
-
+	m_jsonFile.close();
+	//json file parsed and then closed.
 	return result;
 }
 

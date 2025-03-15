@@ -35,7 +35,7 @@ public:
 		int i = 0;
 		for (itr = m_keys.begin(); itr != m_keys.end(); itr++)
 		{
-			if (( * itr) == key)
+			if ((*itr) == key)
 			{
 				//keyFound;
 				break;

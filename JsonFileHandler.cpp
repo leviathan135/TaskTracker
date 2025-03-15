@@ -26,19 +26,14 @@ EXEC_RESULT::EXEC_RESULT JsonFileHandler::updateTaskJson(char* newTask)
 	JsonData jsonData;
 
 	jsonFile.parse(&jsonData);
-		
+	jsonData["description"]->setDataString(std::string(newTask));
+	jsonData["updatedAt"]->setDataString(getCurrentDateTime());
 
+	//Write updated value to jsonfile again with trunc mode. jsonFilePath already set.
+	jsonFile.openJsonFile();
+	jsonFile.writeJsonDataToJsonFile(&jsonData);
+	jsonFile.closeJsonFile();
 
-	//TODO List
-	// 1) Path hazir olarak verildi. ID kullanici tarafindan verildi zaten json icerisinde tutuluyor.
-	// Task cpp içerisinde path bu class içerisine zaten atanmýþ durumda her method içerisinde path ayarlanýyor bu yüzden daha üst bir seviyede ya da
-	// class objesi olarak jsonfile oluþturulabilir method içerisinde tekrarlý þekilde oluþturuluyor. 
-	// 2) Once dosyayý oku 
-	// 3) Dosya icerisinde okunan her bir keyi ve degerini tut. Buna gore pair tarzi bir yapi oluþturulabilinir. Bu islem aslinda json.parse()
-	// 4) Daha sonra ilgili key/value gincelle. Bu durumda taskdescription ve updated-at güncellenecek.
-	// 5) Bu deðerler güncellendikten sonra json.stringfy()
-	// 6) parse ve stringfy daha fazla ilerlenmeden diger methodlar icerisinde de caðýrýlýp genel kütüphane oluþturulabilinir. 
-	//
 
 	return result;
 }

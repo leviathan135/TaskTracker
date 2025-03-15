@@ -12,6 +12,8 @@ public:
     void write(std::fstream& jsonFile);
     void read(std::string numberValue);
     std::string getDataString();
+    void setDataString(std::string stringfyedData);
+    void setData(std::string data);
 
     int getJsonNumber()
     {

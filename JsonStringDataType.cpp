@@ -28,4 +28,9 @@ std::string JsonStringDataType::getDataString()
 	return getJsonString();
 }
 
+void JsonStringDataType::setDataString(std::string dataString)
+{
+	setJsonString(dataString);
+}
+
 JsonStringDataType::~JsonStringDataType(){}
