@@ -60,15 +60,20 @@ EXEC_RESULT::EXEC_RESULT Task::processTask(char* args[], int argc)
 		//call delete function 
 		std::cout << "Delete fonksiyonu caðrildi" << std::endl;
 	}
-	else if (strcmp("mark-in-progress", args[1]) == 0)
+	else if ((strcmp("mark-in-progress", args[1]) == 0) || (strcmp("mark-done", args[1]) == 0))
 	{
+		if (argc > 3 || argc < 3)
+		{
+			printError("You give invalid number of input");
+			result = EXEC_RESULT::FAILURE;
+		}
+		else
+		{
+			result = mark(args[1], args[2]);
+		}
+		//call delete function 
 		//call mark-in-progress function
-		std::cout << "mark-in-progress fonksiyonu caðrildi" << std::endl;
-	}
-	else if (strcmp("mark-done", args[1]) == 0)
-	{
-		//call mark-done
-		std::cout << "mark-done fonksiyonu caðrildi" << std::endl;
+		std::cout << "mark fonksiyonu caðrildi" << std::endl;
 	}
 	else if (strcmp("list", args[1]) == 0)
 	{
@@ -80,6 +85,24 @@ EXEC_RESULT::EXEC_RESULT Task::processTask(char* args[], int argc)
 		std::cout << "You entered wrong function call! Try again!" << std::endl;
 		result = EXEC_RESULT::FAILURE;
 	}
+
+	return result;
+}
+
+EXEC_RESULT::EXEC_RESULT Task::mark(char* markType, char* jsonID)
+{
+	EXEC_RESULT::EXEC_RESULT result = EXEC_RESULT::FAILURE;
+
+	//Create jsonFileHandler instance
+	JsonFileHandler jsonHandler;
+
+	//@TODO: json dosyasini bulma isi daha sonra duzeltilecek.
+	std::string examplejsonPath = std::string(getJsonPath()) + std::string(jsonID) + std::string(".json");
+	const char* jsonPath = examplejsonPath.data();
+	//Set Json File Path before process
+	jsonHandler.setJsonFilePath((char*)jsonPath);
+
+	result = jsonHandler.mark(markType);
 
 	return result;
 }

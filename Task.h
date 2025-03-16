@@ -21,6 +21,7 @@ public:
 	EXEC_RESULT::EXEC_RESULT add(char* newTask);
 	EXEC_RESULT::EXEC_RESULT update(char* jsonID, char* newTask);
 	EXEC_RESULT::EXEC_RESULT deleteTask(char* jsonID);
+	EXEC_RESULT::EXEC_RESULT mark(char* markType, char* JsonID);
 	
 	char* getTaskInput() const
 	{

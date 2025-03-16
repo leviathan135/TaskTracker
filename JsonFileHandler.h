@@ -20,6 +20,7 @@ public:
 	
 	EXEC_RESULT::EXEC_RESULT createNewTaskJson(char* newTask);
 	EXEC_RESULT::EXEC_RESULT updateTaskJson(char* newTask);
+	EXEC_RESULT::EXEC_RESULT mark(char* markType);
 
 	EXEC_RESULT::EXEC_RESULT addJsonNumber(JsonData& jsonData, int id);
 	EXEC_RESULT::EXEC_RESULT addJsonString(JsonData& jsonData, std::string jsonString);

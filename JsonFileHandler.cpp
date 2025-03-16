@@ -6,6 +6,47 @@ JsonFileHandler::JsonFileHandler() : m_jsonFilePath(NULL) {
 
 JsonFileHandler::~JsonFileHandler() {};
 
+EXEC_RESULT::EXEC_RESULT JsonFileHandler::mark(char* markType)
+{
+	EXEC_RESULT::EXEC_RESULT result = EXEC_RESULT::FAILURE;
+
+	//Check is json file exist with given id or not?
+	if (!isFileExists(getJsonFilePath()))
+	{
+		printError("The json file you want to update does not exist. Do you want to create new one with given description?\n");
+		return result;
+	}
+	//If json file exists, open json file.
+	Json jsonFile;
+	jsonFile.setJsonFilePath(getJsonFilePath());
+
+	//Create jsonData to store  key and values.
+	JsonData jsonData;
+
+	result = jsonFile.parse(&jsonData);
+
+	std::string markTypeOfTask;
+
+	if (strcmp("mark-in-progress", markType) == 0)
+	{
+		markTypeOfTask = "in-progress";
+	}
+	else
+	{
+		markTypeOfTask = "done";
+	}
+
+	jsonData["status"]->setDataString(markTypeOfTask);
+	jsonData["updatedAt"]->setDataString(getCurrentDateTime());
+
+	//Write updated value to jsonfile again with trunc mode. jsonFilePath already set.
+	jsonFile.openJsonFile();
+	result = jsonFile.writeJsonDataToJsonFile(&jsonData);
+	jsonFile.closeJsonFile();
+
+	return result;
+}
+
 EXEC_RESULT::EXEC_RESULT JsonFileHandler::updateTaskJson(char* newTask)
 {
 	EXEC_RESULT::EXEC_RESULT result = EXEC_RESULT::FAILURE;
