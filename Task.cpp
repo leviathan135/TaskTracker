@@ -23,7 +23,7 @@ EXEC_RESULT::EXEC_RESULT Task::processTask(char* args[], int argc)
 		//call add function
 		if (argc > 3 || argc < 3)
 		{
-			printError("You give invalid number of output");
+			printError("You give invalid number of input");
 			result = EXEC_RESULT::FAILURE;
 		}
 		else 
@@ -37,7 +37,7 @@ EXEC_RESULT::EXEC_RESULT Task::processTask(char* args[], int argc)
 		//call update function
 		if (argc > 4 || argc < 4)
 		{
-			printError("You give invalid number of output");
+			printError("You give invalid number of input");
 			result = EXEC_RESULT::FAILURE;
 		}
 		else
@@ -48,6 +48,15 @@ EXEC_RESULT::EXEC_RESULT Task::processTask(char* args[], int argc)
 	}
 	else if (strcmp("delete", args[1]) == 0)
 	{
+		if (argc > 3 || argc < 3)
+		{
+			printError("You give invalid number of input");
+			result = EXEC_RESULT::FAILURE;
+		}
+		else
+		{
+			result = deleteTask(args[2]);
+		}
 		//call delete function 
 		std::cout << "Delete fonksiyonu caðrildi" << std::endl;
 	}
@@ -70,6 +79,30 @@ EXEC_RESULT::EXEC_RESULT Task::processTask(char* args[], int argc)
 	{
 		std::cout << "You entered wrong function call! Try again!" << std::endl;
 		result = EXEC_RESULT::FAILURE;
+	}
+
+	return result;
+}
+
+EXEC_RESULT::EXEC_RESULT Task::deleteTask(char* jsonID)
+{
+	EXEC_RESULT::EXEC_RESULT result = EXEC_RESULT::FAILURE;
+
+	//Direclty delete file in here.
+
+	std::string jsonPath = std::string(getJsonPath()) + std::string(jsonID) + std::string(".json");
+	const char* jsonFilePath = jsonPath.data();
+
+	
+	int status = remove(jsonFilePath);
+
+	// Check if the file has been successfully removed
+	if (status != 0) {
+		perror("Error deleting file");
+	}
+	else {
+		std::cout << "File successfully deleted" << std::endl;
+		//@TODO: update config json to update list
 	}
 
 	return result;

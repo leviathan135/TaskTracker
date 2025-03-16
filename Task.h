@@ -4,6 +4,7 @@
 #include "ExecResult.h"
 #include "JsonFileHandler.h"
 #include "Utilities.h"
+#include <cstdio>
 
 class Task
 {
@@ -19,6 +20,7 @@ public:
 
 	EXEC_RESULT::EXEC_RESULT add(char* newTask);
 	EXEC_RESULT::EXEC_RESULT update(char* jsonID, char* newTask);
+	EXEC_RESULT::EXEC_RESULT deleteTask(char* jsonID);
 	
 	char* getTaskInput() const
 	{
