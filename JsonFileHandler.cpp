@@ -13,6 +13,7 @@ EXEC_RESULT::EXEC_RESULT JsonFileHandler::mark(char* markType)
 	//Check is json file exist with given id or not?
 	if (!isFileExists(getJsonFilePath()))
 	{
+		//@TODO bu akis calisilabilir.
 		printError("The json file you want to update does not exist. Do you want to create new one with given description?\n");
 		return result;
 	}
@@ -91,7 +92,7 @@ EXEC_RESULT::EXEC_RESULT JsonFileHandler::createNewTaskJson(char* newTask)
 	JsonData jsonData;
 	jsonData.insertKeyVector(getTaskKeys());
 	//Add each value of keys
-	// First add task id, task description and status
+	// First add task id, task description and status //@TODO: burasi config jsondan alinacak.
 	int id = std::rand();
 	result += addJsonNumber(jsonData, id);
 	result += addJsonString(jsonData, std::string(newTask));
@@ -112,6 +113,38 @@ EXEC_RESULT::EXEC_RESULT JsonFileHandler::createNewTaskJson(char* newTask)
 	if (result == 0)
 	{
 		std::cout << "Task added successfully (ID:" << id << ")";
+		return EXEC_RESULT::SUCCESS;
+	}
+	else {
+		return EXEC_RESULT::FAILURE;
+	}
+}
+
+EXEC_RESULT::EXEC_RESULT JsonFileHandler::createNewConfigJson()
+{
+	uint32_t result = 0;
+
+	Json jsonFile;
+	jsonFile.setJsonFilePath(getJsonFilePath());
+	jsonFile.openJsonFile();
+
+	//Create JsonData
+	JsonData jsonData;
+	jsonData.insertKeyVector(getTaskKeys());
+
+	result += addJsonNumber(jsonData, 0);
+	result += addJsonArray(jsonData, JsonNumber);
+	result += addJsonArray(jsonData, JsonNumber);
+	result += addJsonArray(jsonData, JsonNumber);
+
+	result += jsonFile.writeJsonDataToJsonFile(&jsonData);//This is actually json.strignfy function.
+	//TODO write task information into the json file
+
+
+	jsonFile.closeJsonFile();
+	if (result == 0)
+	{
+		std::cout << "Config.json created first!";
 		return EXEC_RESULT::SUCCESS;
 	}
 	else {

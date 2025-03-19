@@ -18,6 +18,18 @@ EXEC_RESULT::EXEC_RESULT Task::processTask(char* args[], int argc)
 {
 	EXEC_RESULT::EXEC_RESULT result = EXEC_RESULT::FAILURE;
 
+	std::string configJsonPath = std::string(getJsonPath()) +  std::string("config.json");
+	//Before processing the task, check config file exist or not.
+	if (!isFileExists(configJsonPath))
+	{
+		createConfigJsonFile(configJsonPath);
+		//createConfigJson
+	}
+	else 
+	{
+		
+	}
+
 	if (strcmp("add", args[1]) == 0)
 	{
 		//call add function
@@ -75,9 +87,35 @@ EXEC_RESULT::EXEC_RESULT Task::processTask(char* args[], int argc)
 		//call mark-in-progress function
 		std::cout << "mark fonksiyonu caðrildi" << std::endl;
 	}
-	else if (strcmp("list", args[1]) == 0)
+	else if ((strcmp("list", args[1]) == 0))
 	{
-		//call list functions
+		if (args[2] == NULL)
+		{
+			//List all
+		}
+		else if (args[2] == "done")
+		{
+			//List done
+		}
+		else if (args[2] == "todo")
+		{
+			//list todo
+		}
+		else if (args[2] == "in-progress")
+		{
+			//List in-progress
+		}
+		else if (argc > 4)
+		{
+			printError("You give invalid number of input");
+			result = EXEC_RESULT::FAILURE;
+		}
+		else
+		{
+			printError("You entered invalid input");
+			result = EXEC_RESULT::FAILURE;
+		}
+			
 		std::cout << "list fonksiyonlari caðrildi" << std::endl;
 	}
 	else 
@@ -169,3 +207,14 @@ EXEC_RESULT::EXEC_RESULT Task::add(char* newTask)
 	return result;
 }
 
+EXEC_RESULT::EXEC_RESULT Task::createConfigJsonFile(std::string configJsonPath)
+{
+	EXEC_RESULT::EXEC_RESULT result = EXEC_RESULT::FAILURE;
+	JsonFileHandler jsonHandler;
+
+	jsonHandler.setJsonFilePath((char*)(configJsonPath.data()));
+	std::vector<std::string> taskKeys = { "newID", "done", "todo", "in - progress" };
+	jsonHandler.setTaskKeys(taskKeys);
+	result = jsonHandler.createNewConfigJson();
+	return result;
+}

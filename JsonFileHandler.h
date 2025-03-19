@@ -4,8 +4,7 @@
 #include <iostream>
 #include "Json.h"
 #include "JsonData.h"
-#include "JsonNumberDataType.h"
-#include "JsonStringDataType.h"
+#include "JsonDataTypes.h"
 #include <string>
 #include "Utilities.h"
 
@@ -17,7 +16,8 @@ public:
 	JsonFileHandler();
 	~JsonFileHandler();
 
-	
+	EXEC_RESULT::EXEC_RESULT createNewConfigJson();
+
 	EXEC_RESULT::EXEC_RESULT createNewTaskJson(char* newTask);
 	EXEC_RESULT::EXEC_RESULT updateTaskJson(char* newTask);
 	EXEC_RESULT::EXEC_RESULT mark(char* markType);
