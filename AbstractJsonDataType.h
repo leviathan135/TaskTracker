@@ -3,6 +3,16 @@
 #include <string>
 #include <fstream>
 
+typedef enum JSON_DATA_TYPE
+{
+	JSON_STRING = 1,
+	JSON_NUMBER = 2,
+	JSON_OBJECT = 3,
+	JSON_BOOLEAN = 4,
+	JSON_NULL = 5,
+	NOT_SPECIFIED = 6
+}JSON_DATA_TYPE;
+
 class AbstractJsonDataType
 {
 public:

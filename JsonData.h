@@ -9,15 +9,7 @@
 /// @TODO deneme amaçlý
 #include <iostream>
 /// </summary>
-typedef enum JSON_DATA_TYPE
-{
-	JsonString = 1,
-	JsonNumber = 2,
-	JsonObject = 3,
-	JsonArray  = 4,
-	JsonBoolean = 5,
-	JsonNull = 6
-}JSON_DATA_TYPE;
+
 
 class JsonData
 {

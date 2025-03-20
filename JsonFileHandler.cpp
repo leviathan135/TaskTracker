@@ -152,6 +152,11 @@ EXEC_RESULT::EXEC_RESULT JsonFileHandler::createNewConfigJson()
 	}
 }
 
+EXEC_RESULT::EXEC_RESULT JsonFileHandler::addJsonArray(JsonData& jsonData, JSON_DATA_TYPE arrayDataType)
+{
+
+}
+
 EXEC_RESULT::EXEC_RESULT JsonFileHandler::addJsonString(JsonData& jsonData, std::string newTask)
 {
 	AbstractJsonDataType* jsonStringDataType = new JsonStringDataType(newTask);

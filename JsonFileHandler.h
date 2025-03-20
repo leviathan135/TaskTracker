@@ -24,6 +24,7 @@ public:
 
 	EXEC_RESULT::EXEC_RESULT addJsonNumber(JsonData& jsonData, int id);
 	EXEC_RESULT::EXEC_RESULT addJsonString(JsonData& jsonData, std::string jsonString);
+	EXEC_RESULT::EXEC_RESULT addJsonArray(JsonData& jsonData, JSON_DATA_TYPE arrayDataType);
 
 	void setJsonFilePath(char* jsonFilePath)
 	{
