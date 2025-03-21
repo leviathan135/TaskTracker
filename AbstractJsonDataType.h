@@ -28,5 +28,6 @@ public:
 	virtual void read(std::string value) = 0;
 	virtual std::string getDataString() = 0;
 	virtual void setDataString(std::string stringfyedData) = 0;
+	virtual JSON_DATA_TYPE getDataType() = 0;
 };
 

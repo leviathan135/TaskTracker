@@ -5,6 +5,7 @@
 class JsonNumberDataType : public AbstractJsonDataType
 {
 public:
+
     JsonNumberDataType();
     JsonNumberDataType(int jsonNumber);
     ~JsonNumberDataType();
@@ -23,6 +24,11 @@ public:
     void setJsonNumber(int jsonNumber)
     {
         m_jsonNumberInt = jsonNumber;
+    }
+
+    JSON_DATA_TYPE getDataType()
+    {
+        return JSON_NUMBER;
     }
 
 private:

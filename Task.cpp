@@ -213,7 +213,7 @@ EXEC_RESULT::EXEC_RESULT Task::createConfigJsonFile(std::string configJsonPath)
 	JsonFileHandler jsonHandler;
 
 	jsonHandler.setJsonFilePath((char*)(configJsonPath.data()));
-	std::vector<std::string> taskKeys = { "newID", "done", "todo", "in - progress" };
+	std::vector<std::string> taskKeys = { "newID", "done", "todo", "in-progress" };
 	jsonHandler.setTaskKeys(taskKeys);
 	result = jsonHandler.createNewConfigJson();
 	return result;

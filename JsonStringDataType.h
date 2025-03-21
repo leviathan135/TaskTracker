@@ -24,6 +24,11 @@ public:
 		m_jsonString = jsonString;
 	}
 
+	JSON_DATA_TYPE getDataType()
+	{
+		return JSON_STRING;
+	}
+
 private:
 	std::string m_jsonString;
 };

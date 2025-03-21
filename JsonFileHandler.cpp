@@ -133,9 +133,9 @@ EXEC_RESULT::EXEC_RESULT JsonFileHandler::createNewConfigJson()
 	jsonData.insertKeyVector(getTaskKeys());
 
 	result += addJsonNumber(jsonData, 0);
-	result += addJsonArray(jsonData, JsonNumber);
-	result += addJsonArray(jsonData, JsonNumber);
-	result += addJsonArray(jsonData, JsonNumber);
+	result += addJsonArray(jsonData, JSON_NUMBER);
+	result += addJsonArray(jsonData, JSON_NUMBER);
+	result += addJsonArray(jsonData, JSON_NUMBER);
 
 	result += jsonFile.writeJsonDataToJsonFile(&jsonData);//This is actually json.strignfy function.
 	//TODO write task information into the json file
@@ -154,7 +154,13 @@ EXEC_RESULT::EXEC_RESULT JsonFileHandler::createNewConfigJson()
 
 EXEC_RESULT::EXEC_RESULT JsonFileHandler::addJsonArray(JsonData& jsonData, JSON_DATA_TYPE arrayDataType)
 {
-
+	AbstractJsonDataType* jsonArrayDataType = new JsonArrayDataType(arrayDataType);
+	if (jsonArrayDataType != NULL)
+	{
+		jsonData.insertValue(jsonArrayDataType);
+		return EXEC_RESULT::SUCCESS;
+	}
+	else { return EXEC_RESULT::FAILURE; }
 }
 
 EXEC_RESULT::EXEC_RESULT JsonFileHandler::addJsonString(JsonData& jsonData, std::string newTask)
