@@ -29,6 +29,6 @@ bool isFileExists(const std::string& filename)
 void printError(std::string error)
 {
 	std::cout << "\033[" << 31 << "m";
-	std::cerr << error;
+	std::cerr << error<<std::endl;
 	std::cout << "\033[" << 0 << "m";
 }

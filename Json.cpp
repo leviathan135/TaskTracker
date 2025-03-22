@@ -68,8 +68,16 @@ AbstractJsonDataType* Json::readValue(JsonData* jsonData)
 	while (c != ',' && c != '}') //Either value read ended and there is other key and value, or json file ended with number.
 	{
 		valueAsString = valueAsString + c;
-		m_jsonFile >> c;	
-
+			
+		if (valueAsString[0] == '[')
+		{
+			while (c != ']')
+			{
+				m_jsonFile >> c;
+				valueAsString = valueAsString + c;
+			}
+		}
+		m_jsonFile >> c;
 	}
 
 	if (valueAsString[0] == '{')
@@ -91,17 +99,21 @@ AbstractJsonDataType* Json::readValue(JsonData* jsonData)
 	}
 
 
-	std::cout << "valueasSting degerii: " << valueAsString << std::endl;
+	std::cout << "valueasString degerii: " << valueAsString << std::endl;
 	if (valueAsString[0] == '"') //This is a jsonString. read string
 	{
 		p_jsonValue = new JsonStringDataType();
 		p_jsonValue->read(valueAsString);
 		
-	}/*
+	}
 	else if (valueAsString[0] == '[') //This is a json array. read array
 	{
-		//@TODO implement later.
-	}
+		p_jsonValue = new JsonArrayDataType();
+		
+		p_jsonValue->read(valueAsString);
+		std::cout << "valueasArray degerii: " << valueAsString << std::endl;
+		// Yapilacak..
+	}/*
 	else if (valueAsString[0] == '{') //This is a json object. read json object as stringfyed.
 	{
 		//@TODO implement later.

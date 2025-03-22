@@ -3,8 +3,7 @@
 #include <vector>
 #include <string>
 #include "AbstractJsonDataType.h"
-#include "JsonStringDataType.h"
-#include "JsonNumberDataType.h"
+#include "JsonDataTypes.h"
 /// <summary>
 /// @TODO deneme amaçlý
 #include <iostream>

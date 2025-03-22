@@ -17,6 +17,7 @@ public:
 	~JsonFileHandler();
 
 	EXEC_RESULT::EXEC_RESULT createNewConfigJson();
+	EXEC_RESULT::EXEC_RESULT readConfigJson(JsonData* configJsonData);
 
 	EXEC_RESULT::EXEC_RESULT createNewTaskJson(char* newTask);
 	EXEC_RESULT::EXEC_RESULT updateTaskJson(char* newTask);

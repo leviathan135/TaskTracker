@@ -27,7 +27,8 @@ EXEC_RESULT::EXEC_RESULT Task::processTask(char* args[], int argc)
 	}
 	else 
 	{
-		
+		//readConfigJson
+		readConfigJsonFile(configJsonPath);
 	}
 
 	if (strcmp("add", args[1]) == 0)
@@ -216,5 +217,18 @@ EXEC_RESULT::EXEC_RESULT Task::createConfigJsonFile(std::string configJsonPath)
 	std::vector<std::string> taskKeys = { "newID", "done", "todo", "in-progress" };
 	jsonHandler.setTaskKeys(taskKeys);
 	result = jsonHandler.createNewConfigJson();
+	return result;
+}
+
+EXEC_RESULT::EXEC_RESULT Task::readConfigJsonFile(std::string configJsonPath)
+{
+	EXEC_RESULT::EXEC_RESULT result = EXEC_RESULT::FAILURE;
+
+	//Create jsonFileHandler instance
+	JsonFileHandler jsonHandler;
+	jsonHandler.setJsonFilePath((char*)(configJsonPath.data()));
+
+	result = jsonHandler.readConfigJson(&m_configJson); //configJsonPath'i bu jsonData içerisine oku.
+
 	return result;
 }

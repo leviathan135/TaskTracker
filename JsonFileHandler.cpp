@@ -152,6 +152,15 @@ EXEC_RESULT::EXEC_RESULT JsonFileHandler::createNewConfigJson()
 	}
 }
 
+EXEC_RESULT::EXEC_RESULT JsonFileHandler::readConfigJson(JsonData* configJsonData)
+{
+	//If json file exists, open json file.
+	Json jsonFile;
+	jsonFile.setJsonFilePath(getJsonFilePath());
+
+	return (jsonFile.parse(configJsonData));
+}
+
 EXEC_RESULT::EXEC_RESULT JsonFileHandler::addJsonArray(JsonData& jsonData, JSON_DATA_TYPE arrayDataType)
 {
 	AbstractJsonDataType* jsonArrayDataType = new JsonArrayDataType(arrayDataType);

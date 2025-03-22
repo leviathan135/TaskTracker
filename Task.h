@@ -17,6 +17,7 @@ public:
 	~Task();
 
 	EXEC_RESULT::EXEC_RESULT createConfigJsonFile(std::string configJsonPath);
+	EXEC_RESULT::EXEC_RESULT readConfigJsonFile(std::string configJsonPath);
 	EXEC_RESULT::EXEC_RESULT processTask(char* args[], int argc);
 
 	EXEC_RESULT::EXEC_RESULT add(char* newTask);
@@ -47,5 +48,7 @@ public:
 private:
 	char* m_taskInput;
 	char* m_jsonPath;
+
+	JsonData m_configJson;
 };
 
