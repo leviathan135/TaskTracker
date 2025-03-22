@@ -5,6 +5,7 @@
 #include "JsonData.h"
 #include "ExecResult.h"
 #include "Utilities.h"
+#include "JsonArrayDataType.h"
 
 class Json
 {

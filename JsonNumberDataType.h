@@ -8,6 +8,7 @@ public:
 
     JsonNumberDataType();
     JsonNumberDataType(int jsonNumber);
+    JsonNumberDataType(std::string number);
     ~JsonNumberDataType();
 
     void write(std::fstream& jsonFile);

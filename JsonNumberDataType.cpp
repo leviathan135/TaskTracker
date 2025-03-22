@@ -7,6 +7,10 @@ JsonNumberDataType::JsonNumberDataType(int jsonNumber) : AbstractJsonDataType()
 	setJsonNumber(jsonNumber);
 }
 
+JsonNumberDataType::JsonNumberDataType(std::string number) : AbstractJsonDataType()
+{
+	setDataString(number);
+}
 
 void JsonNumberDataType::write(std::fstream& jsonFile)
 {
