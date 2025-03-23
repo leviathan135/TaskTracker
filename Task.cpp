@@ -93,18 +93,24 @@ EXEC_RESULT::EXEC_RESULT Task::processTask(char* args[], int argc)
 		if (args[2] == NULL)
 		{
 			//List all
+			listToDo();
+			listInProgress();
+			listDone();
 		}
-		else if (args[2] == "done")
+		else if ((strcmp("done", args[2]) == 0))
 		{
 			//List done
+			listDone();
 		}
-		else if (args[2] == "todo")
+		else if ((strcmp("todo", args[2]) == 0))
 		{
 			//list todo
+			listToDo();
 		}
-		else if (args[2] == "in-progress")
+		else if ((strcmp("in-progress", args[2]) == 0))
 		{
 			//List in-progress
+			listInProgress();
 		}
 		else if (argc > 4)
 		{
@@ -231,4 +237,19 @@ EXEC_RESULT::EXEC_RESULT Task::readConfigJsonFile(std::string configJsonPath)
 	result = jsonHandler.readConfigJson(&m_configJson); //configJsonPath'i bu jsonData içerisine oku.
 
 	return result;
+}
+
+void Task::listDone()
+{
+	std::cout << "done: " << m_configJson["done"]->getDataString() << std::endl;
+}
+
+void Task::listInProgress()
+{
+	std::cout << "in-progress: " << m_configJson["in-progress"]->getDataString()<<std::endl;
+}
+
+void Task::listToDo()
+{
+	std::cout << "todo: " << m_configJson["todo"]->getDataString() << std::endl;
 }
