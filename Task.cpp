@@ -18,7 +18,7 @@ EXEC_RESULT::EXEC_RESULT Task::processTask(char* args[], int argc)
 {
 	EXEC_RESULT::EXEC_RESULT result = EXEC_RESULT::FAILURE;
 
-	std::string configJsonPath = std::string(getJsonPath()) +  std::string("config.json");
+	configJsonPath = std::string(getJsonPath()) +  std::string("config.json");
 	//Before processing the task, check config file exist or not.
 	if (!isFileExists(configJsonPath))
 	{
@@ -200,16 +200,26 @@ EXEC_RESULT::EXEC_RESULT Task::add(char* newTask)
 	EXEC_RESULT::EXEC_RESULT result = EXEC_RESULT::FAILURE;
 	JsonFileHandler jsonHandler;
 
-	//@TODO: json dosyasini bulma isi daha sonra duzeltilecek.
-	std::string examplejsonPath = std::string(getJsonPath()) + std::string("6.json");
-	const char* jsonPath = examplejsonPath.data();
+	std::string newjsonPath = std::string(getJsonPath()) + m_configJson["newID"]->getDataString() + std::string(".json");
+	const char* jsonPath = newjsonPath.data();
 	//Set Json File Path before process
 	jsonHandler.setJsonFilePath((char*)jsonPath);
 	//Give keys of the json data to Handler. //@TODO: Buradaki key degerleri daha sonra bir json veya config dosyasi icerisinden okunabilir.
 	std::vector<std::string> taskKeys = { "id", "description", "status", "createdAt", "updatedAt" };
 	jsonHandler.setTaskKeys(taskKeys);
 
-	result = jsonHandler.createNewTaskJson(newTask);
+	int newID = std::stoi(m_configJson["newID"]->getDataString());
+	result = jsonHandler.createNewTaskJson(newTask, newID);
+	//Update newID value and then update todo list before new ID written to config.json. Daha sonra bak config ici guncellenecek.
+	AbstractJsonDataType* newTaskID = new JsonNumberDataType(newID);
+	((JsonArrayDataType*)m_configJson["todo"])->insertArrayValue(newTaskID);
+	//Update new id 
+	newID++;
+	((JsonNumberDataType*)m_configJson["newID"])->setJsonNumber(newID);
+	//Write updated config json file to config.json
+	jsonHandler.setJsonFilePath((char*)(configJsonPath.data()));
+	result = jsonHandler.updateConfigJson(&m_configJson);
+	std::cout << "ConfigJson updated... " << std::endl;
 	
 	return result;
 }

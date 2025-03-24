@@ -5,6 +5,7 @@
 #include "JsonFileHandler.h"
 #include "Utilities.h"
 #include <cstdio>
+#include <iostream>
 
 class Task
 {
@@ -54,5 +55,6 @@ private:
 	char* m_jsonPath;
 
 	JsonData m_configJson;
+	std::string configJsonPath;
 };
 

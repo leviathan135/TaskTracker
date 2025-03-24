@@ -18,8 +18,9 @@ public:
 
 	EXEC_RESULT::EXEC_RESULT createNewConfigJson();
 	EXEC_RESULT::EXEC_RESULT readConfigJson(JsonData* configJsonData);
+	EXEC_RESULT::EXEC_RESULT updateConfigJson(JsonData* configJsonData);
 
-	EXEC_RESULT::EXEC_RESULT createNewTaskJson(char* newTask);
+	EXEC_RESULT::EXEC_RESULT createNewTaskJson(char* newTask, int newID);
 	EXEC_RESULT::EXEC_RESULT updateTaskJson(char* newTask);
 	EXEC_RESULT::EXEC_RESULT mark(char* markType);
 

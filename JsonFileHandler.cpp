@@ -80,7 +80,7 @@ EXEC_RESULT::EXEC_RESULT JsonFileHandler::updateTaskJson(char* newTask)
 	return result;
 }
 
-EXEC_RESULT::EXEC_RESULT JsonFileHandler::createNewTaskJson(char* newTask)
+EXEC_RESULT::EXEC_RESULT JsonFileHandler::createNewTaskJson(char* newTask, int newID)
 {
 	uint32_t result = 0;
 
@@ -92,9 +92,8 @@ EXEC_RESULT::EXEC_RESULT JsonFileHandler::createNewTaskJson(char* newTask)
 	JsonData jsonData;
 	jsonData.insertKeyVector(getTaskKeys());
 	//Add each value of keys
-	// First add task id, task description and status //@TODO: burasi config jsondan alinacak.
-	int id = std::rand();
-	result += addJsonNumber(jsonData, id);
+	// First add task id, task description and status 
+	result += addJsonNumber(jsonData, newID);
 	result += addJsonString(jsonData, std::string(newTask));
 	result += addJsonString(jsonData, "todo");
 
@@ -105,14 +104,12 @@ EXEC_RESULT::EXEC_RESULT JsonFileHandler::createNewTaskJson(char* newTask)
 	result += addJsonString(jsonData, dateTime);
 
 	result += jsonFile.writeJsonDataToJsonFile(&jsonData);//This is actually json.strignfy function.
-	//TODO write task information into the json file
-
 
 	jsonFile.closeJsonFile();
 
 	if (result == 0)
 	{
-		std::cout << "Task added successfully (ID:" << id << ")";
+		std::cout << "Task added successfully (ID:" << newID << ")";
 		return EXEC_RESULT::SUCCESS;
 	}
 	else {
@@ -132,7 +129,7 @@ EXEC_RESULT::EXEC_RESULT JsonFileHandler::createNewConfigJson()
 	JsonData jsonData;
 	jsonData.insertKeyVector(getTaskKeys());
 
-	result += addJsonNumber(jsonData, 0);
+	result += addJsonNumber(jsonData, 1);
 	result += addJsonArray(jsonData, JSON_NUMBER);
 	result += addJsonArray(jsonData, JSON_NUMBER);
 	result += addJsonArray(jsonData, JSON_NUMBER);
@@ -141,6 +138,26 @@ EXEC_RESULT::EXEC_RESULT JsonFileHandler::createNewConfigJson()
 	//TODO write task information into the json file
 
 
+	jsonFile.closeJsonFile();
+	if (result == 0)
+	{
+		std::cout << "Config.json created first!";
+		return EXEC_RESULT::SUCCESS;
+	}
+	else {
+		return EXEC_RESULT::FAILURE;
+	}
+}
+
+EXEC_RESULT::EXEC_RESULT JsonFileHandler::updateConfigJson(JsonData* configJsonData)
+{
+	uint32_t result = 0;
+
+	Json jsonFile;
+	jsonFile.setJsonFilePath(getJsonFilePath());
+	jsonFile.openJsonFile();
+
+	result += jsonFile.writeJsonDataToJsonFile(configJsonData);
 	jsonFile.closeJsonFile();
 	if (result == 0)
 	{
