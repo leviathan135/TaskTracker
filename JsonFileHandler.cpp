@@ -161,7 +161,6 @@ EXEC_RESULT::EXEC_RESULT JsonFileHandler::updateConfigJson(JsonData* configJsonD
 	jsonFile.closeJsonFile();
 	if (result == 0)
 	{
-		std::cout << "Config.json created first!";
 		return EXEC_RESULT::SUCCESS;
 	}
 	else {

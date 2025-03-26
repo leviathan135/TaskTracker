@@ -161,7 +161,28 @@ EXEC_RESULT::EXEC_RESULT Task::deleteTask(char* jsonID)
 	std::string jsonPath = std::string(getJsonPath()) + std::string(jsonID) + std::string(".json");
 	const char* jsonFilePath = jsonPath.data();
 
-	
+	//read status of the json file that will be removed, so that update config json
+	std::string taskStatus;
+	Json jsonFile;
+	jsonFile.setJsonFilePath((char*)jsonFilePath);
+
+	//Create jsonData to store  key and values.
+	JsonData jsonData;
+
+	jsonFile.parse(&jsonData);
+	taskStatus = jsonData["status"]->getDataString();
+
+	//update configJson array 
+
+	((JsonArrayDataType*)m_configJson[taskStatus])->removeArrayValue(jsonID);
+
+	//Write updated config json file to config.json
+	JsonFileHandler jsonHandler;
+	jsonHandler.setJsonFilePath((char*)(configJsonPath.data()));
+	result = jsonHandler.updateConfigJson(&m_configJson);
+	std::cout << "ConfigJson updated... " << std::endl;
+
+
 	int status = remove(jsonFilePath);
 
 	// Check if the file has been successfully removed
@@ -212,9 +233,11 @@ EXEC_RESULT::EXEC_RESULT Task::add(char* newTask)
 	result = jsonHandler.createNewTaskJson(newTask, newID);
 	//Update newID value and then update todo list before new ID written to config.json. Daha sonra bak config ici guncellenecek.
 	AbstractJsonDataType* newTaskID = new JsonNumberDataType(newID);
+	std::cout << "new ID is: " << newID << std::endl;
 	((JsonArrayDataType*)m_configJson["todo"])->insertArrayValue(newTaskID);
 	//Update new id 
 	newID++;
+
 	((JsonNumberDataType*)m_configJson["newID"])->setJsonNumber(newID);
 	//Write updated config json file to config.json
 	jsonHandler.setJsonFilePath((char*)(configJsonPath.data()));
