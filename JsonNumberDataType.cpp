@@ -35,7 +35,7 @@ std::string JsonNumberDataType::getDataString()
 
 void JsonNumberDataType::setData(std::string data)
 {
-	if (data.find('.') != std::string::npos) //That means number is double. //@TODO fonksiyonlari sonra yazilacak setter,getter.
+	if (data.find('.') != std::string::npos) //That means number is double. //@TODO Double number setter getter will be implemented.
 	{
 		m_jsonNumberDouble = std::stod(data);
 	}

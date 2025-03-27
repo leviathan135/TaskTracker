@@ -6,15 +6,14 @@ JsonFileHandler::JsonFileHandler() : m_jsonFilePath(NULL) {
 
 JsonFileHandler::~JsonFileHandler() {};
 
-EXEC_RESULT::EXEC_RESULT JsonFileHandler::mark(char* markType)
+EXEC_RESULT::EXEC_RESULT JsonFileHandler::mark(char* markType, std::string& previousStatus)
 {
 	EXEC_RESULT::EXEC_RESULT result = EXEC_RESULT::FAILURE;
 
 	//Check is json file exist with given id or not?
 	if (!isFileExists(getJsonFilePath()))
 	{
-		//@TODO bu akis calisilabilir.
-		printError("The json file you want to update does not exist. Do you want to create new one with given description?\n");
+		printError("The json file you want to update does not exist.\n");
 		return result;
 	}
 	//If json file exists, open json file.
@@ -25,6 +24,8 @@ EXEC_RESULT::EXEC_RESULT JsonFileHandler::mark(char* markType)
 	JsonData jsonData;
 
 	result = jsonFile.parse(&jsonData);
+
+	previousStatus = jsonData["status"]->getDataString();
 
 	std::string markTypeOfTask;
 
@@ -55,8 +56,8 @@ EXEC_RESULT::EXEC_RESULT JsonFileHandler::updateTaskJson(char* newTask)
 	//Check is json file exist with given id or not?
 	if (!isFileExists(getJsonFilePath()))
 	{
-		printError("The json file you want to update does not exist. Do you want to create new one with given description?\n");
-		//@TODO: Burada cevaba gore kullaniciyi yes/no cevabindan sonra add fonksiyonu ile yönlendir. Ýleri seviye.
+		printError("The json file you want to update does not exist.\n");
+		
 		return result;
 	}
 
@@ -201,7 +202,6 @@ EXEC_RESULT::EXEC_RESULT JsonFileHandler::addJsonString(JsonData& jsonData, std:
 
 EXEC_RESULT::EXEC_RESULT JsonFileHandler::addJsonNumber(JsonData& jsonData, int id)
 {
-	//@TODO: buradaki id degeri configden okunacak. Daha sonra ayarla.
 	AbstractJsonDataType* jsonNumberDataType = new JsonNumberDataType(id);
 	if (jsonNumberDataType != NULL)
 	{

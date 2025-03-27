@@ -57,7 +57,6 @@ EXEC_RESULT::EXEC_RESULT Task::processTask(char* args[], int argc)
 		{
 			result = update(args[2], args[3]);
 		}
-		std::cout << "Update fonksiyonu caðrildi" << std::endl;
 	}
 	else if (strcmp("delete", args[1]) == 0)
 	{
@@ -70,8 +69,6 @@ EXEC_RESULT::EXEC_RESULT Task::processTask(char* args[], int argc)
 		{
 			result = deleteTask(args[2]);
 		}
-		//call delete function 
-		std::cout << "Delete fonksiyonu caðrildi" << std::endl;
 	}
 	else if ((strcmp("mark-in-progress", args[1]) == 0) || (strcmp("mark-done", args[1]) == 0))
 	{
@@ -84,9 +81,6 @@ EXEC_RESULT::EXEC_RESULT Task::processTask(char* args[], int argc)
 		{
 			result = mark(args[1], args[2]);
 		}
-		//call delete function 
-		//call mark-in-progress function
-		std::cout << "mark fonksiyonu caðrildi" << std::endl;
 	}
 	else if ((strcmp("list", args[1]) == 0))
 	{
@@ -122,8 +116,6 @@ EXEC_RESULT::EXEC_RESULT Task::processTask(char* args[], int argc)
 			printError("You entered invalid input");
 			result = EXEC_RESULT::FAILURE;
 		}
-			
-		std::cout << "list fonksiyonlari caðrildi" << std::endl;
 	}
 	else 
 	{
@@ -138,16 +130,36 @@ EXEC_RESULT::EXEC_RESULT Task::mark(char* markType, char* jsonID)
 {
 	EXEC_RESULT::EXEC_RESULT result = EXEC_RESULT::FAILURE;
 
+	std::string previousStatus;
+
 	//Create jsonFileHandler instance
 	JsonFileHandler jsonHandler;
 
-	//@TODO: json dosyasini bulma isi daha sonra duzeltilecek.
 	std::string examplejsonPath = std::string(getJsonPath()) + std::string(jsonID) + std::string(".json");
 	const char* jsonPath = examplejsonPath.data();
 	//Set Json File Path before process
 	jsonHandler.setJsonFilePath((char*)jsonPath);
 
-	result = jsonHandler.mark(markType);
+	result = jsonHandler.mark(markType, previousStatus);
+
+	//update config json. remove json ID from previosStatusarray and add to markType array
+	((JsonArrayDataType*)m_configJson[previousStatus])->removeArrayValue(jsonID);
+
+	AbstractJsonDataType* newStatusID = new JsonNumberDataType(jsonID);
+	if (strcmp(markType, "mark-done") == 0)
+	{
+		((JsonArrayDataType*)m_configJson["done"])->insertArrayValue(newStatusID);
+	}
+	else if (strcmp(markType, "mark-in-progress") == 0)
+	{
+		((JsonArrayDataType*)m_configJson["in-progress"])->insertArrayValue(newStatusID);
+	}
+	
+	//Write updated config json file to config.json
+	//JsonFileHandler cjsonHandler;
+	jsonHandler.setJsonFilePath((char*)(configJsonPath.data()));
+	result = jsonHandler.updateConfigJson(&m_configJson);
+	std::cout << "ConfigJson updated... " << std::endl;
 
 	return result;
 }
@@ -191,7 +203,6 @@ EXEC_RESULT::EXEC_RESULT Task::deleteTask(char* jsonID)
 	}
 	else {
 		std::cout << "File successfully deleted" << std::endl;
-		//@TODO: update config json to update list
 	}
 
 	return result;
@@ -204,7 +215,6 @@ EXEC_RESULT::EXEC_RESULT Task::update(char* jsonID, char* newTask)
 	//Create jsonFileHandler instance
 	JsonFileHandler jsonHandler;
 
-	//@TODO: json dosyasini bulma isi daha sonra duzeltilecek.
 	std::string examplejsonPath = std::string(getJsonPath()) + std::string(jsonID) + std::string(".json");
 	const char* jsonPath = examplejsonPath.data();
 	//Set Json File Path before process
@@ -225,7 +235,7 @@ EXEC_RESULT::EXEC_RESULT Task::add(char* newTask)
 	const char* jsonPath = newjsonPath.data();
 	//Set Json File Path before process
 	jsonHandler.setJsonFilePath((char*)jsonPath);
-	//Give keys of the json data to Handler. //@TODO: Buradaki key degerleri daha sonra bir json veya config dosyasi icerisinden okunabilir.
+	//Give keys of the json data to Handler.
 	std::vector<std::string> taskKeys = { "id", "description", "status", "createdAt", "updatedAt" };
 	jsonHandler.setTaskKeys(taskKeys);
 

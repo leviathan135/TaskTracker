@@ -35,8 +35,7 @@ void JsonArrayDataType::write(std::fstream& jsonFile)
 	jsonFile << "]";
 	
 }
-//@TODO sil
-#include <iostream>
+
 void JsonArrayDataType::read(std::string arrayData) 
 {
 	//Remove first and last brackets []
@@ -87,21 +86,18 @@ void JsonArrayDataType::parseNumberData(std::string numberData)
 	AbstractJsonDataType* newData;
 	std::string number;
 	int i;
-	std::cout << "bulunan sayilar: ";
 	for (i = 0; i <= numberData.size(); i++)
 	{
 		if (numberData[i] == ',' || i==numberData.size())
 		{
 			newData = new JsonNumberDataType(number);
 			insertArrayValue(newData);
-			std::cout << number << " ";
 			number.clear();
 			continue;
 		}
 		number = number + numberData[i];
 		
 	}
-	std::cout<<"updated array is "<<getDataString()<< std::endl;
 }
 
 void JsonArrayDataType::obtainArrayDataType(std::string arrayData)
@@ -186,7 +182,7 @@ void JsonArrayDataType::insertArrayValue(AbstractJsonDataType* jsonDataValue)
 	{
 		if (m_arrayDataType == NOT_SPECIFIED)
 		{
-			std::cout << "Array Data Type is not specified! Adjusting with the same data type with inserting value !!";
+			std::cerr << "Array Data Type is not specified! Adjusting with the same data type with inserting value !!";
 			m_arrayDataType = jsonDataValue->getDataType();
 		}
 		m_jsonArray.push_back(jsonDataValue);

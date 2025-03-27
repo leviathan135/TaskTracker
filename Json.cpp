@@ -200,8 +200,6 @@ void Json::openJsonFile()
 	}
 	else
 	{
-		//@TODO throw error akisi calisalacak. 
-		//throw("Json Dosyasi acilamadi");
 		std::cerr << "JsonFile is not opened" << std::endl;
 		throw("Json file is not opened");
 	}
@@ -210,7 +208,6 @@ void Json::openJsonFile()
 
 void Json::closeJsonFile()
 {
-	//@TODO hata akisi ekelencek. dosya acik mi degil mi kontrol et gibi.
 	if (m_jsonFile.is_open())
 	{
 		m_jsonFile.write("}", 1);
@@ -221,7 +218,6 @@ void Json::closeJsonFile()
 
 EXEC_RESULT::EXEC_RESULT Json::writeJsonDataToJsonFile(JsonData* jsonData)
 {
-	//@TODO: test amacli sadece keyler yazildi. Daha sonrasýn key/value pairler yazýlacak.
 	std::vector<std::string>::iterator it;
 	std::vector<AbstractJsonDataType*>::iterator itr2 = jsonData->getValues().begin();
 	int i = 0;

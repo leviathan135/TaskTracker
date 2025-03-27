@@ -4,10 +4,7 @@
 #include <string>
 #include "AbstractJsonDataType.h"
 #include "JsonDataTypes.h"
-/// <summary>
-/// @TODO deneme amaçlý
 #include <iostream>
-/// </summary>
 
 
 class JsonData
@@ -33,7 +30,15 @@ public:
 			}
 			else { i++; }
 		}
-		return (m_values.at(i));
+		if (m_keys.size() != i)
+		{
+			return (m_values.at(i));
+		}
+		else
+		{
+			std::cerr << "There is no key related with given";
+			return nullptr;
+		}
 	}
 
 	void setKeys(std::vector<std::string> keys)

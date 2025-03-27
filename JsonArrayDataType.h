@@ -2,8 +2,6 @@
 #include "AbstractJsonDataType.h"
 #include <vector>
 #include "JsonDataTypes.h"
-
-//@TODO: test amacli kaldiralacak.
 #include <iostream>
 
 class JsonArrayDataType : public AbstractJsonDataType
